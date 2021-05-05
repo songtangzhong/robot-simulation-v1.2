@@ -3,8 +3,9 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/joint_state.hpp>
-#include <robot_info/arm_info.h>
-#include <process_commu/arm_state_shm.h>
+#include <robot_info/robot_info.h>
+#include <robot_info/robot_basic_macro.h>
+#include <process_commu/robot_state_shm.h>
 #include <process_commu/shm_common.h>
 #include <process_commu/sem_common.h>
 
@@ -20,16 +21,22 @@ public:
     void get_arm_joint_velocities(double * positions);
     void get_arm_joint_efforts(double * positions);
 
+#if END_EFF_TRUE
+    void get_end_eff_joint_positions(double * positions);
+    void get_end_eff_joint_velocities(double * positions);
+    void get_end_eff_joint_efforts(double * positions);
+#endif
+
 private:
     rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr robot_state_sub_;
 
     void callback_robot_state_sub_(const sensor_msgs::msg::JointState::SharedPtr msg);
 
-    std::shared_ptr<arm_info::ArmInfo> arm_info_ = std::make_shared<arm_info::ArmInfo>();
+    std::shared_ptr<robot_info::RobotInfo> robot_info_ = std::make_shared<robot_info::RobotInfo>();
 
-    arm_state_shm::ArmStateShm *arm_state_shm_;
-    int arm_state_shm_id_;
-    int arm_state_sem_id_;
+    robot_state_shm::RobotStateShm *robot_state_shm_;
+    int robot_state_shm_id_;
+    int robot_state_sem_id_;
 };
 
 }

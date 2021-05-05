@@ -42,6 +42,36 @@ ament_target_dependencies(${PROJECT_NAME}
   process_commu
 )
 
+add_executable(trigger_robot_state_callback
+  src/trigger_robot_state_callback.cpp
+)
+target_include_directories(trigger_robot_state_callback
+  PRIVATE
+  include
+)
+target_link_libraries(trigger_robot_state_callback
+  ${PROJECT_NAME}
+)
+ament_target_dependencies(trigger_robot_state_callback
+  rclcpp
+)
+
+add_executable(test_trigger
+  test/test_trigger.cpp
+)
+target_include_directories(test_trigger
+  PRIVATE
+  include
+  ${robot_info_INCLUDE_DIRS}
+)
+target_link_libraries(test_trigger
+  ${PROJECT_NAME}
+)
+ament_target_dependencies(test_trigger
+  rclcpp
+  robot_info
+)
+
 add_executable(test_robot_fun
   test/test_robot_fun.cpp
 )
@@ -72,6 +102,8 @@ install(
 )
 
 install(TARGETS
+  trigger_robot_state_callback
+  test_trigger
   test_robot_fun
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
