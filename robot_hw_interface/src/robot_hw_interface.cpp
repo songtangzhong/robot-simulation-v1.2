@@ -19,6 +19,7 @@ hardware_interface::return_type RobotHardware::configure(
   start_duration_sec_ = stod(info_.hardware_parameters["start_duration_sec"]);
   stop_duration_sec_ = stod(info_.hardware_parameters["stop_duration_sec"]);
 
+  //////////////////////////////////////////////////////////////////////////////////////////////
   arm_shm_id_ = shm_common::create_shm(arm_info_->arm_shm_key_, &arm_shm_);
   if (arm_shm_id_ != SHM_STATE_NO)
   {
@@ -39,6 +40,7 @@ hardware_interface::return_type RobotHardware::configure(
       RCLCPP_ERROR(rclcpp::get_logger("RobotHardware"), "Create arm semaphore failed.");
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////////////
 #if END_EFF_TRUE
   end_eff_shm_id_ = shm_common::create_shm(end_eff_info_->end_eff_shm_key_, &end_eff_shm_);
   if (end_eff_shm_id_ != SHM_STATE_NO)
@@ -89,6 +91,7 @@ RobotHardware::export_state_interfaces()
         arm_info_->arm_joint_names_[j], hardware_interface::HW_IF_EFFORT, &arm_info_->cur_arm_joint_efforts_[j]));
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////////////
 #if END_EFF_TRUE
   for (unsigned int j = 0; j < end_eff_info_->end_eff_dof_; j++) 
   {

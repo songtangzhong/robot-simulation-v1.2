@@ -13,10 +13,10 @@
 #include <rclcpp/macros.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <robot_info/arm_info.h>
+#include <robot_info/robot_basic_macro.h>
 #include <process_commu/arm_shm.h>
 #include <process_commu/shm_common.h>
 #include <process_commu/sem_common.h>
-#include <robot_info/robot_basic_macro.h>
 
 #if END_EFF_TRUE
 #include <robot_info/end_eff_info.h>
@@ -49,14 +49,12 @@ private:
   double stop_duration_sec_;
 
   std::shared_ptr<arm_info::ArmInfo> arm_info_ = std::make_shared<arm_info::ArmInfo>();
-
   arm_shm::ArmShm *arm_shm_;
   int arm_shm_id_;
   int arm_sem_id_;
 
 #if END_EFF_TRUE
   std::shared_ptr<end_eff_info::EndEffInfo> end_eff_info_ = std::make_shared<end_eff_info::EndEffInfo>();
-  
   end_eff_shm::EndEffShm *end_eff_shm_;
   int end_eff_shm_id_;
   int end_eff_sem_id_;

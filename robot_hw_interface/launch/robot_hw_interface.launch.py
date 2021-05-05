@@ -53,6 +53,12 @@ def generate_launch_description():
         output='screen',
     )
 
+    trigger_robot_state_callback_node = Node(
+        package='robot_fun',
+        executable='trigger_robot_state_callback',
+        output='screen',
+    )
+
     rviz_node = Node(
         package='rviz2',
         executable='rviz2',
@@ -66,4 +72,5 @@ def generate_launch_description():
         start_controller_node,
         robot_state_publisher_node,
         rviz_node,
+        trigger_robot_state_callback_node,
     ])

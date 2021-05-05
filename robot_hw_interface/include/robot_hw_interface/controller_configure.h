@@ -35,7 +35,6 @@ private:
     rclcpp::Client<controller_manager_msgs::srv::SwitchController>::SharedPtr switch_controller_cli_;
 
     std::shared_ptr<arm_info::ArmInfo> arm_info_ = std::make_shared<arm_info::ArmInfo>();
-
     arm_shm::ArmShm *arm_shm_;
     int arm_shm_id_;
     int arm_sem_id_;
