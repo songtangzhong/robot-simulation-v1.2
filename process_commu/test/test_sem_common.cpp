@@ -1,7 +1,7 @@
-#include <rclcpp/rclcpp.hpp>
 #include <process_commu/sem_common.h>
 #include <robot_info/arm_info.h>
 #include <robot_info/robot_basic_macro.h>
+#include <rclcpp/rclcpp.hpp>
 
 #if END_EFF_TRUE
 #include <robot_info/end_eff_info.h>
