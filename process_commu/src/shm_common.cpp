@@ -1,5 +1,6 @@
 #include <process_commu/shm_common.h>
 #include <process_commu/arm_shm.h>
+#include <process_commu/arm_state_shm.h>
 #include <rclcpp/rclcpp.hpp>
 #include <robot_info/robot_basic_macro.h>
 
@@ -57,6 +58,9 @@ int release_shm(int shm_id, T ** shm_ptr)
 
 template int create_shm<arm_shm::ArmShm>(key_t key, arm_shm::ArmShm ** shm_ptr);
 template int release_shm<arm_shm::ArmShm>(int shm_id, arm_shm::ArmShm ** shm_ptr);
+
+template int create_shm<arm_state_shm::ArmStateShm>(key_t key, arm_state_shm::ArmStateShm ** shm_ptr);
+template int release_shm<arm_state_shm::ArmStateShm>(int shm_id, arm_state_shm::ArmStateShm ** shm_ptr);
 
 #if END_EFF_TRUE
 template int create_shm<end_eff_shm::EndEffShm>(key_t key, end_eff_shm::EndEffShm ** shm_ptr);
