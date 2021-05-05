@@ -1,9 +1,9 @@
-#include <rclcpp/rclcpp.hpp>
 #include <process_commu/shm_common.h>
 #include <process_commu/sem_common.h>
 #include <process_commu/arm_shm.h>
 #include <robot_info/arm_info.h>
 #include <robot_info/robot_basic_macro.h>
+#include <rclcpp/rclcpp.hpp>
 #include <iostream>
 
 #if END_EFF_TRUE
