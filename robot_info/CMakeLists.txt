@@ -22,6 +22,7 @@ find_package(rclcpp REQUIRED)
 add_library(${PROJECT_NAME} SHARED
   src/arm_info.cpp
   src/end_eff_info.cpp
+  src/robot_info.cpp
 )
 target_include_directories(${PROJECT_NAME} 
   PRIVATE 
