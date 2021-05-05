@@ -33,6 +33,9 @@ public:
 
     key_t arm_shm_key_;
     key_t arm_sem_key_;
+
+    key_t arm_state_shm_key_;
+    key_t arm_state_sem_key_;
 };
 
 }

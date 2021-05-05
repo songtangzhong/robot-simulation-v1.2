@@ -35,6 +35,9 @@ ArmInfo::ArmInfo()
 
     arm_shm_key_ = ARM_SHM_KEY;
     arm_sem_key_ = ARM_SEM_KEY;
+
+    arm_state_shm_key_ = ARM_STATE_SHM_KEY;
+    arm_state_sem_key_ = ARM_STATE_SEM_KEY;
 }
 
 ArmInfo::~ArmInfo(){}

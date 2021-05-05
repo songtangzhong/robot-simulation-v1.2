@@ -5,6 +5,9 @@
 #define ARM_SHM_KEY 1234
 #define ARM_SEM_KEY 1235
 
+#define ARM_STATE_SHM_KEY 1236
+#define ARM_STATE_SEM_KEY 1237
+
 #define END_EFF_DOF 2
 #define END_EFF_SHM_KEY 2234
 #define END_EFF_SEM_KEY 2235
