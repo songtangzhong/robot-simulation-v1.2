@@ -1,5 +1,5 @@
-#include <process_commu/sem_common.h>
 #include <rclcpp/rclcpp.hpp>
+#include <process_commu/sem_common.h>
 
 namespace sem_common
 {

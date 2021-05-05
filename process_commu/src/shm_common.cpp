@@ -1,8 +1,8 @@
+#include <rclcpp/rclcpp.hpp>
 #include <process_commu/shm_common.h>
 #include <process_commu/arm_shm.h>
 #include <process_commu/robot_state_shm.h>
 #include <robot_info/robot_basic_macro.h>
-#include <rclcpp/rclcpp.hpp>
 
 #if END_EFF_TRUE
 #include <process_commu/end_eff_shm.h>
