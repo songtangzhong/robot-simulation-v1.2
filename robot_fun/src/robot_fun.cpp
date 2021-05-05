@@ -12,21 +12,13 @@ RobotFun::RobotFun(const std::string & node_name)
       "/joint_states", 100, std::bind(&RobotFun::callback_robot_state_sub_, this, _1));
 
     robot_state_shm_id_ = shm_common::create_shm(robot_info_->robot_state_shm_key_, &robot_state_shm_);
-    if (robot_state_shm_id_ != SHM_STATE_NO)
-    {
-        RCLCPP_INFO(rclcpp::get_logger("RobotFun"), "Create robot state shared memory successfully.");
-    }
-    else
+    if (robot_state_shm_id_ == SHM_STATE_NO)
     {
         RCLCPP_ERROR(rclcpp::get_logger("RobotFun"), "Create robot state shared memory failed.");
     }
 
     robot_state_sem_id_ = sem_common::create_semaphore(robot_info_->robot_state_sem_key_);
-    if (robot_state_sem_id_ != SEM_STATE_NO)
-    {
-        RCLCPP_INFO(rclcpp::get_logger("RobotFun"), "Create robot state semaphore successfully.");
-    }
-    else
+    if (robot_state_sem_id_ == SEM_STATE_NO)
     {
         RCLCPP_ERROR(rclcpp::get_logger("RobotFun"), "Create robot state semaphore failed.");
     }

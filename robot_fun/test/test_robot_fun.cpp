@@ -1,6 +1,6 @@
-#include <robot_fun/robot_fun.h>
 #include <rclcpp/rclcpp.hpp>
 #include <thread>
+#include <robot_fun/robot_fun.h>
 #include <robot_info/robot_basic_macro.h>
 
 int main(int argc, char ** argv)

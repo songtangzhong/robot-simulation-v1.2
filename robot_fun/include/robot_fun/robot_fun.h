@@ -18,13 +18,13 @@ public:
     ~RobotFun();
 
     void get_arm_joint_positions(double * positions);
-    void get_arm_joint_velocities(double * positions);
-    void get_arm_joint_efforts(double * positions);
+    void get_arm_joint_velocities(double * velocities);
+    void get_arm_joint_efforts(double * efforts);
 
 #if END_EFF_TRUE
     void get_end_eff_joint_positions(double * positions);
-    void get_end_eff_joint_velocities(double * positions);
-    void get_end_eff_joint_efforts(double * positions);
+    void get_end_eff_joint_velocities(double * velocities);
+    void get_end_eff_joint_efforts(double * efforts);
 #endif
 
 private:
