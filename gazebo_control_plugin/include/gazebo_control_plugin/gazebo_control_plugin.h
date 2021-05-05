@@ -8,6 +8,7 @@
 
 #include <robot_info/arm_info.h>
 #include <process_commu/arm_shm.h>
+#include <process_commu/arm_state_shm.h>
 #include <process_commu/shm_common.h>
 #include <process_commu/sem_common.h>
 #include <robot_info/robot_basic_macro.h>
@@ -45,6 +46,10 @@ private:
     arm_shm::ArmShm *arm_shm_;
     int arm_shm_id_;
     int arm_sem_id_;
+
+    arm_state_shm::ArmStateShm *arm_state_shm_;
+    int arm_state_shm_id_;
+    int arm_state_sem_id_;
 
 #if END_EFF_TRUE
     std::shared_ptr<end_eff_info::EndEffInfo> end_eff_info_ = std::make_shared<end_eff_info::EndEffInfo>();

@@ -39,6 +39,33 @@ ControlPlugin::ControlPlugin()
     {
         RCLCPP_ERROR(rclcpp::get_logger("gazebo"), "Create arm semaphore failed.");
     }
+    ///////////////////////////////////////////////////////////////////////////////////////////
+    arm_state_shm_id_ = shm_common::create_shm(arm_info_->arm_state_shm_key_, &arm_state_shm_);
+    if (arm_state_shm_id_ != SHM_STATE_NO)
+    {
+        RCLCPP_INFO(rclcpp::get_logger("gazebo"), "Create arm state shared memory successfully.");
+    }
+    else
+    {
+        RCLCPP_ERROR(rclcpp::get_logger("gazebo"), "Create arm state shared memory failed.");
+    }
+
+    for (unsigned int j=0; j< arm_info_->arm_dof_; j++)
+    {
+        arm_state_shm_->cur_arm_joint_positions_[j] = arm_info_->cur_arm_joint_positions_[j];
+        arm_state_shm_->cur_arm_joint_velocities_[j] = arm_info_->cur_arm_joint_velocities_[j];
+        arm_state_shm_->cur_arm_joint_efforts_[j] = arm_info_->cur_arm_joint_efforts_[j];
+    }
+
+    arm_state_sem_id_ = sem_common::create_semaphore(arm_info_->arm_state_sem_key_);
+    if (arm_state_sem_id_ != SEM_STATE_NO)
+    {
+        RCLCPP_INFO(rclcpp::get_logger("gazebo"), "Create arm state semaphore successfully.");
+    }
+    else
+    {
+        RCLCPP_ERROR(rclcpp::get_logger("gazebo"), "Create arm state semaphore failed.");
+    }
 
 #if END_EFF_TRUE
     end_eff_shm_id_ = shm_common::create_shm(end_eff_info_->end_eff_shm_key_, &end_eff_shm_);
@@ -94,6 +121,24 @@ ControlPlugin::~ControlPlugin()
     else
     {
         RCLCPP_ERROR(rclcpp::get_logger("gazebo"), "Delete arm semaphore failed.");
+    }
+    ////////////////////////////////////////////////////////////////////////////////////
+    if (shm_common::release_shm(arm_state_shm_id_, &arm_state_shm_) == SHM_STATE_OK)
+    {
+        RCLCPP_INFO(rclcpp::get_logger("gazebo"), "Release arm state shared memory successfully.");
+    }
+    else
+    {
+        RCLCPP_ERROR(rclcpp::get_logger("gazebo"), "Release arm state shared memory failed.");
+    }
+
+    if (sem_common::delete_semaphore(arm_state_sem_id_) == SEM_STATE_OK)
+    {
+        RCLCPP_INFO(rclcpp::get_logger("gazebo"), "Delete arm state semaphore successfully.");
+    }
+    else
+    {
+        RCLCPP_ERROR(rclcpp::get_logger("gazebo"), "Delete arm state semaphore failed.");
     }
 
 #if END_EFF_TRUE
