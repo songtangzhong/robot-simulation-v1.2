@@ -7,7 +7,6 @@ ControlPlugin::ControlPlugin()
 {
     RCLCPP_INFO(rclcpp::get_logger("gazebo"), "Start Robot Simulation ...");
 
-    ///////////////////////////////////////////////////////////////////////////////////////////
     arm_shm_id_ = shm_common::create_shm(arm_info_->arm_shm_key_, &arm_shm_);
     if (arm_shm_id_ != SHM_STATE_NO)
     {
