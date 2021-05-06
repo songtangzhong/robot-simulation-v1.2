@@ -25,21 +25,13 @@ ControllerConfigure::ControllerConfigure(const std::string & node_name)
     nh_->create_client<controller_manager_msgs::srv::SwitchController>("/controller_manager/switch_controller");
 
     arm_shm_id_ = shm_common::create_shm(arm_info_->arm_shm_key_, &arm_shm_);
-    if (arm_shm_id_ != SHM_STATE_NO)
-    {
-        RCLCPP_INFO(rclcpp::get_logger("ControllerConfigure"), "Create arm shared memory successfully.");
-    }
-    else
+    if (arm_shm_id_ == SHM_STATE_NO)
     {
         RCLCPP_ERROR(rclcpp::get_logger("ControllerConfigure"), "Create arm shared memory failed.");
     }
 
     arm_sem_id_ = sem_common::create_semaphore(arm_info_->arm_sem_key_);
-    if (arm_sem_id_ != SEM_STATE_NO)
-    {
-        RCLCPP_INFO(rclcpp::get_logger("ControllerConfigure"), "Create arm semaphore successfully.");
-    }
-    else
+    if (arm_sem_id_ == SEM_STATE_NO)
     {
         RCLCPP_ERROR(rclcpp::get_logger("ControllerConfigure"), "Create arm semaphore failed.");
     }
@@ -55,21 +47,25 @@ void ControllerConfigure::load_start_controller(const std::string & controller_n
     {
         if (!rclcpp::ok())
         {
-            RCLCPP_ERROR(rclcpp::get_logger("load_start_controller"), "Interrupted while waiting for the service. Exiting.");
+            RCLCPP_ERROR(rclcpp::get_logger("load_start_controller"), 
+                "Interrupted while waiting for the service. Exiting.");
         }
 
-        RCLCPP_INFO(rclcpp::get_logger("load_start_controller"), "service [/controller_manager/load_and_start_controller] not available, waiting again...");
+        RCLCPP_INFO(rclcpp::get_logger("load_start_controller"), 
+            "service [/controller_manager/load_and_start_controller] not available, waiting again...");
     }
 
     auto result = load_start_controller_cli_->async_send_request(request);
     // Wait for the result.
     if (rclcpp::spin_until_future_complete(nh_, result) == rclcpp::FutureReturnCode::SUCCESS)
     {
-        RCLCPP_INFO(rclcpp::get_logger("load_start_controller"), "load and start %s successfully.", controller_name.c_str());
+        RCLCPP_INFO(rclcpp::get_logger("load_start_controller"), 
+            "load and start %s successfully.", controller_name.c_str());
     }
     else
     {
-        RCLCPP_ERROR(rclcpp::get_logger("load_start_controller"), "Failed to load and start %s.", controller_name.c_str());
+        RCLCPP_ERROR(rclcpp::get_logger("load_start_controller"), 
+            "Failed to load and start %s.", controller_name.c_str());
     }
 }
 
@@ -81,21 +77,25 @@ void ControllerConfigure::load_configure_controller(const std::string & controll
     {
         if (!rclcpp::ok())
         {
-            RCLCPP_ERROR(rclcpp::get_logger("load_configure_controller"), "Interrupted while waiting for the service. Exiting.");
+            RCLCPP_ERROR(rclcpp::get_logger("load_configure_controller"), 
+                "Interrupted while waiting for the service. Exiting.");
         }
 
-        RCLCPP_INFO(rclcpp::get_logger("load_configure_controller"), "service [/controller_manager/load_and_configure_controller] not available, waiting again...");
+        RCLCPP_INFO(rclcpp::get_logger("load_configure_controller"), 
+            "service [/controller_manager/load_and_configure_controller] not available, waiting again...");
     }
 
     auto result = load_configure_controller_cli_->async_send_request(request);
     // Wait for the result.
     if (rclcpp::spin_until_future_complete(nh_, result) == rclcpp::FutureReturnCode::SUCCESS)
     {
-        RCLCPP_INFO(rclcpp::get_logger("load_configure_controller"), "load and configure %s successfully.", controller_name.c_str());
+        RCLCPP_INFO(rclcpp::get_logger("load_configure_controller"), 
+            "load and configure %s successfully.", controller_name.c_str());
     }
     else
     {
-        RCLCPP_ERROR(rclcpp::get_logger("load_configure_controller"), "Failed to load and start %s.", controller_name.c_str());
+        RCLCPP_ERROR(rclcpp::get_logger("load_configure_controller"), 
+            "Failed to load and start %s.", controller_name.c_str());
     }
 }
 
@@ -113,10 +113,12 @@ void ControllerConfigure::switch_controller(const std::string & start_controller
     {
         if (!rclcpp::ok())
         {
-            RCLCPP_ERROR(rclcpp::get_logger("switch_controller"), "Interrupted while waiting for the service. Exiting.");
+            RCLCPP_ERROR(rclcpp::get_logger("switch_controller"), 
+                "Interrupted while waiting for the service. Exiting.");
         }
 
-        RCLCPP_INFO(rclcpp::get_logger("switch_controller"), "service [/controller_manager/switch_controller] not available, waiting again...");
+        RCLCPP_INFO(rclcpp::get_logger("switch_controller"), 
+            "service [/controller_manager/switch_controller] not available, waiting again...");
     }
 
     auto result = switch_controller_cli_->async_send_request(request);
@@ -150,11 +152,13 @@ void ControllerConfigure::switch_controller(const std::string & start_controller
         }
         sem_common::semaphore_v(arm_sem_id_);
 
-        RCLCPP_INFO(rclcpp::get_logger("switch_controller"), "switch %s to %s successfully.", stop_controller.c_str(), start_controller.c_str());
+        RCLCPP_INFO(rclcpp::get_logger("switch_controller"), 
+            "switch %s to %s successfully.", stop_controller.c_str(), start_controller.c_str());
     }
     else
     {
-        RCLCPP_ERROR(rclcpp::get_logger("switch_controller"), "Failed to switch %s to %s.", stop_controller.c_str(), start_controller.c_str());
+        RCLCPP_ERROR(rclcpp::get_logger("switch_controller"), 
+            "Failed to switch %s to %s.", stop_controller.c_str(), start_controller.c_str());
     }
 }
 

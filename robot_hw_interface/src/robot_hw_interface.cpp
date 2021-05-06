@@ -19,23 +19,14 @@ hardware_interface::return_type RobotHardware::configure(
   start_duration_sec_ = stod(info_.hardware_parameters["start_duration_sec"]);
   stop_duration_sec_ = stod(info_.hardware_parameters["stop_duration_sec"]);
 
-  //////////////////////////////////////////////////////////////////////////////////////////////
   arm_shm_id_ = shm_common::create_shm(arm_info_->arm_shm_key_, &arm_shm_);
-  if (arm_shm_id_ != SHM_STATE_NO)
-  {
-      RCLCPP_INFO(rclcpp::get_logger("RobotHardware"), "Create arm shared memory successfully.");
-  }
-  else
+  if (arm_shm_id_ == SHM_STATE_NO)
   {
       RCLCPP_ERROR(rclcpp::get_logger("RobotHardware"), "Create arm shared memory failed.");
   }
 
   arm_sem_id_ = sem_common::create_semaphore(arm_info_->arm_sem_key_);
-  if (arm_sem_id_ != SEM_STATE_NO)
-  {
-      RCLCPP_INFO(rclcpp::get_logger("RobotHardware"), "Create arm semaphore successfully.");
-  }
-  else
+  if (arm_sem_id_ == SEM_STATE_NO)
   {
       RCLCPP_ERROR(rclcpp::get_logger("RobotHardware"), "Create arm semaphore failed.");
   }
@@ -43,21 +34,13 @@ hardware_interface::return_type RobotHardware::configure(
   //////////////////////////////////////////////////////////////////////////////////////////////
 #if END_EFF_TRUE
   end_eff_shm_id_ = shm_common::create_shm(end_eff_info_->end_eff_shm_key_, &end_eff_shm_);
-  if (end_eff_shm_id_ != SHM_STATE_NO)
-  {
-      RCLCPP_INFO(rclcpp::get_logger("RobotHardware"), "Create end-effector shared memory successfully.");
-  }
-  else
+  if (end_eff_shm_id_ == SHM_STATE_NO)
   {
       RCLCPP_ERROR(rclcpp::get_logger("RobotHardware"), "Create end-effector shared memory failed.");
   }
 
   end_eff_sem_id_ = sem_common::create_semaphore(end_eff_info_->end_eff_sem_key_);
-  if (end_eff_sem_id_ != SEM_STATE_NO)
-  {
-      RCLCPP_INFO(rclcpp::get_logger("RobotHardware"), "Create end-effector semaphore successfully.");
-  }
-  else
+  if (end_eff_sem_id_ == SEM_STATE_NO)
   {
       RCLCPP_ERROR(rclcpp::get_logger("RobotHardware"), "Create end-effector semaphore failed.");
   }
