@@ -35,6 +35,10 @@ ControllerConfigure::ControllerConfigure(const std::string & node_name)
     {
         RCLCPP_ERROR(rclcpp::get_logger("ControllerConfigure"), "Create arm semaphore failed.");
     }
+
+    cmd_positions_pub_ = nh_->create_publisher<std_msgs::msg::Float64MultiArray>("/position_controllers/commands", 100);
+    cmd_velocities_pub_ = nh_->create_publisher<std_msgs::msg::Float64MultiArray>("/velocity_controllers/commands", 100);
+    cmd_efforts_pub_ = nh_->create_publisher<std_msgs::msg::Float64MultiArray>("/effort_controllers/commands", 100);
 }
 
 ControllerConfigure::~ControllerConfigure(){}
@@ -132,6 +136,14 @@ void ControllerConfigure::switch_controller(const std::string & start_controller
             {
                 // Set current arm joint positions to commands by ros2 controller manager,
                 // not by shared memory.
+                double cur_arm_positions[ARM_DOF];
+                robot_->get_arm_joint_positions(cur_arm_positions);
+                auto cmd = std_msgs::msg::Float64MultiArray();
+                for (unsigned int j=0; j< arm_info_->arm_dof_; j++)
+                {
+                    cmd.data.push_back(cur_arm_positions[j]);
+                }
+                cmd_positions_pub_->publish(cmd);
 
                 arm_shm_->arm_control_modes_[j] = arm_info_->arm_position_mode_;
             }
@@ -139,6 +151,14 @@ void ControllerConfigure::switch_controller(const std::string & start_controller
             {
                 // Set current arm joint velocities (zeros) to commands by ros2 controller manager,
                 // not by shared memory.
+                double cur_arm_velocities[ARM_DOF];
+                auto cmd = std_msgs::msg::Float64MultiArray();
+                for (unsigned int j=0; j< arm_info_->arm_dof_; j++)
+                {
+                    cur_arm_velocities[j] = 0;
+                    cmd.data.push_back(cur_arm_velocities[j]);
+                }
+                cmd_velocities_pub_->publish(cmd);
 
                 arm_shm_->arm_control_modes_[j] = arm_info_->arm_velocity_mode_;
             }
@@ -146,6 +166,14 @@ void ControllerConfigure::switch_controller(const std::string & start_controller
             {
                 // Set current arm joint efforts (zeros) to commands by ros2 controller manager,
                 // not by shared memory.
+                double cur_arm_efforts[ARM_DOF];
+                auto cmd = std_msgs::msg::Float64MultiArray();
+                for (unsigned int j=0; j< arm_info_->arm_dof_; j++)
+                {
+                    cur_arm_efforts[j] = 0;
+                    cmd.data.push_back(cur_arm_efforts[j]);
+                }
+                cmd_efforts_pub_->publish(cmd);
 
                 arm_shm_->arm_control_modes_[j] = arm_info_->arm_effort_mode_;
             }

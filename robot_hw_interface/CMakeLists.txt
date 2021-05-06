@@ -23,6 +23,8 @@ find_package(pluginlib REQUIRED)
 find_package(robot_info REQUIRED)
 find_package(process_commu REQUIRED)
 find_package(controller_manager_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(robot_fun REQUIRED)
 
 add_library(${PROJECT_NAME} SHARED
   src/robot_hw_interface.cpp
@@ -53,16 +55,20 @@ target_include_directories(controller_configure
   include
   ${robot_info_INCLUDE_DIRS}
   ${process_commu_INCLUDE_DIRS}
+  ${robot_fun_INCLUDE_DIRS}
 )
 target_link_libraries(controller_configure
   ${robot_info_LIBRARIES}
   ${process_commu_LIBRARIES}
+  ${robot_fun_LIBRARIES}
 )
 ament_target_dependencies(controller_configure
   rclcpp
   controller_manager_msgs
   robot_info
   process_commu
+  std_msgs
+  robot_fun
 )
 
 add_executable(start_controller
@@ -138,6 +144,8 @@ ament_export_dependencies(
   robot_info
   process_commu
   controller_manager_msgs
+  std_msgs
+  robot_fun
 )
 
 ament_package()

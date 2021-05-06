@@ -12,6 +12,8 @@
 #include <process_commu/arm_shm.h>
 #include <process_commu/shm_common.h>
 #include <process_commu/sem_common.h>
+#include <robot_fun/robot_fun.h>
+#include <std_msgs/msg/float64_multi_array.hpp>
 
 namespace controller_configure
 {
@@ -38,6 +40,12 @@ private:
     arm_shm::ArmShm *arm_shm_;
     int arm_shm_id_;
     int arm_sem_id_;
+
+    std::shared_ptr<robot_fun::RobotFun> robot_ = std::make_shared<robot_fun::RobotFun>("switch_controller");
+
+    rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr cmd_positions_pub_;
+    rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr cmd_velocities_pub_;
+    rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr cmd_efforts_pub_;
 };
 
 }
